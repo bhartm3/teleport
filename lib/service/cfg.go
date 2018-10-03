@@ -158,6 +158,17 @@ type Config struct {
 
 	// ShutdownTimeout is set to override default shutdown timeout.
 	ShutdownTimeout time.Duration
+
+	// CAPath is the path to the CA used to verify the TLS connection to the
+	// Auth Server.
+	CAPath string
+
+	// CAPin is the SKPI hash of the CA used to verify the Auth Server.
+	CAPin string
+
+	// InsecureSkipCAVerification skips checking the CA when establishing a
+	// connection the Auth Server.
+	InsecureSkipCAVerification bool
 }
 
 // ApplyToken assigns a given token to all internal services but only if token
@@ -425,6 +436,7 @@ func ApplyDefaults(cfg *Config) {
 	cfg.Ciphers = sc.Ciphers
 	cfg.KEXAlgorithms = kex
 	cfg.MACAlgorithms = macs
+	cfg.CAPath = filepath.Join(defaults.DataDir, defaults.CACertFile)
 
 	// defaults for the auth service:
 	cfg.Auth.Enabled = true

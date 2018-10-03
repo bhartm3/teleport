@@ -1,8 +1,9 @@
 package service
 
 import (
-	"golang.org/x/crypto/ssh"
 	"time"
+
+	"golang.org/x/crypto/ssh"
 
 	"github.com/gravitational/teleport"
 	"github.com/gravitational/teleport/lib/auth"
@@ -287,6 +288,9 @@ func (process *TeleportProcess) firstTimeConnect(role teleport.Role) (*Connector
 			PublicTLSKey:         keyPair.PublicTLSKey,
 			PublicSSHKey:         keyPair.PublicSSHKey,
 			CipherSuites:         process.Config.CipherSuites,
+			CAPath:               process.Config.CAPath,
+			CAPin:                process.Config.CAPin,
+			InsecureSkipCAVerification: process.Config.InsecureSkipCAVerification,
 		})
 		if err != nil {
 			return nil, trace.Wrap(err)

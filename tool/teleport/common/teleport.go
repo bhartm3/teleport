@@ -97,6 +97,15 @@ func Run(options Options) (executedCommand string, conf *service.Config) {
 	start.Flag("token",
 		"Invitation token to register with an auth server [none]").
 		StringVar(&ccf.AuthToken)
+	start.Flag("ca-pin",
+		"CA pin to validate the Auth Server").
+		StringVar(&ccf.CAPin)
+	start.Flag("ca-path",
+		"Path to CA certificate to validate Auth Server").
+		StringVar(&ccf.CAPath)
+	start.Flag("insecure_skip_ca_verification",
+		"Insecure skip validating the certificate presented by the Auth Server").
+		BoolVar(&ccf.InsecureSkipCAVerification)
 	start.Flag("nodename",
 		"Name of this node, defaults to hostname").
 		StringVar(&ccf.NodeName)

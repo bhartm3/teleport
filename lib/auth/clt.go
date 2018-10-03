@@ -360,6 +360,19 @@ func (c *Client) GetDomainName() (string, error) {
 	return domain, nil
 }
 
+// GetLocalCA returns the CAs for the local cluster without signing keys.
+func (c *Client) GetLocalCA() (*LocalCAResponse, error) {
+	out, err := c.Get(c.Endpoint("ca"), url.Values{})
+	if err != nil {
+		return nil, trace.Wrap(err)
+	}
+	var localCA LocalCAResponse
+	if err := json.Unmarshal(out.Bytes(), &localCA); err != nil {
+		return nil, trace.Wrap(err)
+	}
+	return &localCA, nil
+}
+
 func (c *Client) Close() error {
 	return nil
 }
@@ -2302,6 +2315,9 @@ type ClientI interface {
 
 	// GetDomainName returns auth server cluster name
 	GetDomainName() (string, error)
+
+	// GetLocalCA returns the CAs for the local cluster without signing keys.
+	GetLocalCA() (*LocalCAResponse, error)
 
 	// GenerateServerKeys generates new host private keys and certificates (signed
 	// by the host certificate authority) for a node
